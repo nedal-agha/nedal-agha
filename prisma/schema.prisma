@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Project {
+  id               Int            @id @default(autoincrement())
+  title            String
+  slug             String         @unique
+  shortDescription String         @db.VarChar(300)
+  fullDescription  String         @db.Text
+  category         String
+  clientName       String?
+  coverImageUrl    String
+  liveUrl          String?
+  isFeatured       Boolean        @default(false)
+  isPublished      Boolean        @default(false)
+  sortOrder        Int            @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  images           ProjectImage[]
+
+  @@index([isPublished])
+  @@index([isFeatured])
+  @@index([sortOrder])
+}
+
+model ProjectImage {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  imageUrl  String
+  altText   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model SiteSettings {
+  id           Int      @id @default(1)
+  siteNameAr   String
+  siteNameEn   String
+  heroTitle    String   @db.VarChar(200)
+  heroSubtitle String   @db.VarChar(300)
+  aboutText    String   @db.Text
+  email        String
+  phone        String?
+  whatsapp     String?
+  linkedinUrl  String?
+  instagramUrl String?
+  facebookUrl  String?
+  footerText   String   @db.VarChar(300)
+  updatedAt    DateTime @updatedAt
+}

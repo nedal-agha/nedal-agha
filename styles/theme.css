@@ -1,0 +1,26 @@
+﻿:root {
+  --na-card: #0f1627;
+  --na-card-border: #26324d;
+  --na-muted: #9aacd0;
+  --na-accent: #47b2ff;
+  --na-accent-2: #6dd6ff;
+}
+
+.na-shell {
+  background: radial-gradient(circle at 15% 15%, rgba(71, 178, 255, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 0%, rgba(109, 214, 255, 0.14), transparent 40%),
+    #05070d;
+}
+
+.na-card {
+  background: var(--na-card);
+  border: 1px solid var(--na-card-border);
+}
+
+.na-muted {
+  color: var(--na-muted);
+}
+
+.na-accent {
+  color: var(--na-accent);
+}
